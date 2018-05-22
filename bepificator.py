@@ -19,9 +19,16 @@ async def on_ready():
 async def on_message(message):
     if message.content.startswith('$$'):
         message_to_bep = message.content[2:]
+        if not message_to_bep:
+            await client.send_message(message.channel, 'Can\'t bep nothing')
+            return
         output_message = ''
         for letter in message_to_bep:
-            output_message = output_message + ':regional_indicator_' + letter + ':'
+            if letter.isalpha():
+                letter = letter.lower()
+                output_message = output_message + ':regional_indicator_' + letter + ':'
+            else:
+                output_message = output_message + letter
         await client.send_message(message.channel, output_message)
 
 client.run('')
